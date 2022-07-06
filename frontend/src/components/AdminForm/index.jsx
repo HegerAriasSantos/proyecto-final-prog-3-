@@ -19,7 +19,7 @@ function index({ type }) {
 	const typeTitle = type === "create" ? "Crear Trailer" : "Editar trailer";
 	useEffect(() => {
 		if (type === "create") return;
-		axios.get(`https://proyectowebfinal-backend.herokuapp.com/trailer/${id}`).then(res => {
+		axios.get(`http://localhost:4000/trailer/${id}`).then(res => {
 			const { actores, titulo, año, director, reseña, src, portada } =
 				res.data.body;
 			setVideo({
@@ -37,12 +37,12 @@ function index({ type }) {
 	const handleSubmit = e => {
 		e.preventDefault();
 		if (type === "create") {
-			axios.post(`https://proyectowebfinal-backend.herokuapp.com/trailer`, video).then(res => {
+			axios.post(`http://localhost:4000/trailer`, video).then(res => {
 				navigate("/admin");
 			});
 		} else {
 			axios
-				.patch(`https://proyectowebfinal-backend.herokuapp.com/trailer/${id}`, { trailer: video })
+				.patch(`http://localhost:4000/trailer/${id}`, { trailer: video })
 				.then(res => {
 					navigate("/admin");
 				});
@@ -184,9 +184,9 @@ function index({ type }) {
 						</label>
 					</div>
 				</div>
-        <div className="buttonContainer">
-				<button type='submit'>Submit</button>
-        </div>
+				<div className='buttonContainer'>
+					<button type='submit'>Submit</button>
+				</div>
 			</form>
 		</div>
 	);

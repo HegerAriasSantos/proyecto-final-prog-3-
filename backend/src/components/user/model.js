@@ -12,9 +12,9 @@ async function getUser(name) {
 
 async function updateUser(name, newName, newPassword) {
 	const foundUser = await schema.findOne({ name });
-  foundUser.name = newName ? newName : foundUser.name;
-  foundUser.password = newPassword ? newPassword : foundUser.password;
-  return await foundUser.save();
+	foundUser.name = newName ? newName : foundUser.name;
+	foundUser.password = newPassword ? newPassword : foundUser.password;
+	return await foundUser.save();
 }
 
 async function deleteUser(_id) {

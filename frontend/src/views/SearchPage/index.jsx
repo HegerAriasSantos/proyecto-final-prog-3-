@@ -9,7 +9,7 @@ function index() {
 	const { search } = useParams();
 	const [results, setResults] = useState([]);
 	useEffect(() => {
-		axios.get(`https://proyectowebfinal-backend.herokuapp.com/trailer`).then(data => {
+		axios.get(`http://localhost:4000/trailer`).then(data => {
 			setResults(useFilter(data.data.body, search));
 		});
 	}, [search]);
@@ -19,7 +19,7 @@ function index() {
 			{results.length > 0 ? (
 				<ListOfVideos videos={results} />
 			) : (
-				<h2 className="notFound">No hay resultados</h2>
+				<h2 className='notFound'>No hay resultados</h2>
 			)}
 		</div>
 	);

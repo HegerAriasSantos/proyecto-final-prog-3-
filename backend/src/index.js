@@ -8,15 +8,15 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.set("port", process.env.PORT || 4000);
-db.connect(process.env.DB_CONNECT);
+db.connect();
 
 router(app);
 app.get("/", (req, res) => {
-  res.send("Welcome to the API");
+	res.send("Welcome to the API");
 });
 
 app.listen(app.get("port"), function () {
-  console.log(
-    `la aplicacion esta funcionado en http://localhost:${app.get("port")}`,
-  );
+	console.log(
+		`la aplicacion esta funcionado en http://localhost:${app.get("port")}`,
+	);
 });

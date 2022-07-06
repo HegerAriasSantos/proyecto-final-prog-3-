@@ -7,9 +7,9 @@ function index() {
 	const { id } = useParams();
 	const [trailer, setTrailer] = useState({});
 	useEffect(() => {
-		axios.get(`https://proyectowebfinal-backend.herokuapp.com/trailer/${id}`).then(res => {
+		axios.get(`http://localhost:4000/trailer/${id}`).then(res => {
 			setTrailer(res.data.body);
-      console.log( res.data.body.src);
+			console.log(res.data.body.src);
 		});
 	}, []);
 

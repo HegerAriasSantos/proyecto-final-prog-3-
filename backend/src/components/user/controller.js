@@ -12,15 +12,15 @@ function addUser(name, password) {
 		if (oldUser) {
 			return reject("El usuario ya existe, por favor inicie sesión");
 		}
-    
+
 		const encryptedPassword = await bcrypt.hash(password, 10);
-    
+
 		const user = await model.add({
 			name: name,
 			password: encryptedPassword,
 		});
 
-		const token = jwt.sign({ userId: user._id, name }, config.TOKEN_KEY);
+		const token = jwt.sign({ userId: user._id, name }, "process.env.TOKEN_KEY");
 		user.token = token;
 		return resolve(user);
 	});
@@ -33,7 +33,10 @@ function login(name, password) {
 		const user = await model.list(name);
 
 		if (user && (await bcrypt.compare(password, user.password))) {
-			const token = jwt.sign({ user_id: user._id, name }, config.TOKEN_KEY);
+			const token = jwt.sign(
+				{ user_id: user._id, name },
+				"process.env.TOKEN_KEY",
+			);
 			user.token = token;
 			resolve(user);
 		}
@@ -49,9 +52,9 @@ function getUser(filterUser = null) {
 
 function updateUser(name, newName, newPassword) {
 	return new Promise(async (resolve, reject) => {
-    if (!(newPassword && newName)) {
-      reject("Faltan Datos");
-    }
+		if (!(newPassword && newName)) {
+			reject("Faltan Datos");
+		}
 		return resolve(model.list(name, newName, newPassword));
 	});
 }

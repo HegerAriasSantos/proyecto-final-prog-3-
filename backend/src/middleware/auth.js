@@ -7,7 +7,7 @@ const verifyToken = (req, res, next) => {
 		return res.status(403).send("Falta el token");
 	}
 	try {
-		const decoded = jwt.verify(token, process.env.TOKEN_KEY);
+		const decoded = jwt.verify(token, "process.env.TOKEN_KEY");
 	} catch (err) {
 		return res.status(401).send("Token incorrecto");
 	}

@@ -14,31 +14,26 @@ function index() {
 	const [videosFilted, setVideosFilted] = useState([]);
 
 	const handleDelete = e => {
-    
-    MySwal.fire({
-      title: 'Seguro que quieres borrar este trailer?',
-      text: "No podras recuperarlo!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        MySwal.fire(
-          'Deleted!',
-          'Your file has been deleted.',
-          'success'
-        )
-        const id = e.target.id;
-        axios.delete(`https://proyectowebfinal-backend.herokuapp.com/trailer/delete/${id}`).then(() => {
-          setVideosFilted(videos.filter(video => video._id !== id));
-        });
-      }
-    })
+		MySwal.fire({
+			title: "Seguro que quieres borrar este trailer?",
+			text: "No podras recuperarlo!",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, delete it!",
+		}).then(result => {
+			if (result.isConfirmed) {
+				MySwal.fire("Deleted!", "Your file has been deleted.", "success");
+				const id = e.target.id;
+				axios.delete(`http://localhost:4000/trailer/delete/${id}`).then(() => {
+					setVideosFilted(videos.filter(video => video._id !== id));
+				});
+			}
+		});
 	};
 	useEffect(() => {
-		axios("https://proyectowebfinal-backend.herokuapp.com/trailer").then(res => {
+		axios("http://localhost:4000/trailer").then(res => {
 			setVideos(res.data.body);
 			setVideosFilted(res.data.body);
 		});
@@ -52,12 +47,12 @@ function index() {
 				<Link to='/admin/create'>
 					<button>Create Trailer</button>
 				</Link>
-					<input
-						type='text'
-						id='search'
-						placeholder='search'
-						onChange={e => setVideosFilted(useFilter(videos, e.target.value))}
-					/>
+				<input
+					type='text'
+					id='search'
+					placeholder='search'
+					onChange={e => setVideosFilted(useFilter(videos, e.target.value))}
+				/>
 			</div>
 			<div className='admin__videos'>
 				<table>
