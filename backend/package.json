@@ -1,0 +1,23 @@
+{
+	"name": "backend",
+	"version": "1.0.0",
+	"description": "alguito loco ahi",
+	"main": "src/index.js",
+	"engines": {
+		"node": "14.x"
+	},
+	"scripts": {
+		"start": "node src/index.js"
+	},
+	"author": "heger arias santos",
+	"license": "ISC",
+	"dependencies": {
+		"bcrypt": "^5.0.1",
+		"cors": "^2.8.5",
+		"dotenv": "^10.0.0",
+		"express": "^4.17.1",
+		"jsonwebtoken": "^8.5.1",
+		"mongodb": "^3.6.8",
+		"mongoose": "^5.12.15"
+	}
+}

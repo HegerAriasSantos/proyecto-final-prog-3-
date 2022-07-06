@@ -1,0 +1,38 @@
+@import 'global';
+
+#nuevo{
+  @extend .center;
+  min-height: 100vh;
+  background-color: #f1f1f1;
+  
+  form{
+    @extend .center;
+    width: 100%;
+    max-width: 500px;
+    margin-top: 20px;
+    input{
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+      &:focus{
+        outline: none;
+      }
+      &:hover{
+        background-color: $color-primary;
+      }
+      &:active{
+        background: #000;
+      }
+
+    }
+  }
+}
+.center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
