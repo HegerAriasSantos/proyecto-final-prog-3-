@@ -8,7 +8,7 @@ function index(props) {
 
   return (
     <div className="videoWrapper">
-      <Link to={`/trailer/${id}`}>
+      <Link to={`/cliente/${id}`}>
       <img className="videoWrapper__video" src={portada} title={titulo} />
       <div className="videoWrapper__wrapper">
       <img src={play} />

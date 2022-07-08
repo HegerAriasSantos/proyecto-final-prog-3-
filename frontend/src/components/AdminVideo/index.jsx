@@ -1,44 +1,54 @@
 import { Link } from "react-router-dom";
-import placeholder from "../../assets/img/placeholder.jpg";
 
 function index(props) {
-	const { reseña, portada, titulo, actores, año, id } = props;
+	const {
+		id,
+		nombre,
+		apellido,
+		cedula,
+		telefono,
+		direccion,
+		deuda,
+		abono,
+		total,
+	} = props;
 
 	return (
 		<tr>
 			<td>
-				<img
-					src={portada ? portada : placeholder}
-				/>
+				<p>{nombre}</p>
 			</td>
 			<td>
-				<p>{titulo}</p>
+				<p>{apellido}</p>
 			</td>
 			<td>
-				<p>
-					{actores.map((actor, i) => (
-						<span key={i}>{`${actor}  `} </span>
-					))}
-				</p>
+				<p>{cedula}</p>
 			</td>
 			<td>
-				<p>{reseña}</p>
+				<p>{telefono}</p>
 			</td>
 			<td>
-				<p>{año}</p>
+				<p>{direccion}</p>
+			</td>
+			<td>
+				<p>{deuda}</p>
+			</td>
+			<td>
+				<p>{abono}</p>
+			</td>
+			<td>
+				<p>{total}</p>
 			</td>
 			<td>
 				<div>
-					<button
-						className='delete'
-						id={id}
-						onClick={props.handleDelete}>
-						Delete
+					<button className='delete' id={id} onClick={props.handleDelete}>
+						Borrar
 					</button>
-					<Link
-						to={`/admin/trailer/${id}`}
-						className='videoWrapper__info__link'>
-						<button className='edit'>Edit</button>
+					<Link to={`/cliente/${id}`}>
+						<button className='edit'>Editar</button>
+					</Link>
+					<Link to={`/deuda/${id}`}>
+						<button className='abono'>Deuda/Abono</button>
 					</Link>
 				</div>
 			</td>

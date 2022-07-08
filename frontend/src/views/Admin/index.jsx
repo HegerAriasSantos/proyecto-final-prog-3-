@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import useFilter from "./../../hook/useFilter";
-import Video from "../../components/AdminVideo";
+import ClienteWrapper from "../../components/AdminVideo";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import "./index.scss";
@@ -10,12 +10,12 @@ import "./index.scss";
 function index() {
 	const MySwal = withReactContent(Swal);
 
-	const [videos, setVideos] = useState([]);
-	const [videosFilted, setVideosFilted] = useState([]);
+	const [clientes, setClientes] = useState([]);
+	const [clientesFilted, setClienteFilted] = useState([]);
 
 	const handleDelete = e => {
 		MySwal.fire({
-			title: "Seguro que quieres borrar este trailer?",
+			title: "Seguro que quieres borrar este cliente?",
 			text: "No podras recuperarlo!",
 			icon: "warning",
 			showCancelButton: true,
@@ -26,59 +26,65 @@ function index() {
 			if (result.isConfirmed) {
 				MySwal.fire("Deleted!", "Your file has been deleted.", "success");
 				const id = e.target.id;
-				axios.delete(`http://localhost:4000/trailer/delete/${id}`).then(() => {
-					setVideosFilted(videos.filter(video => video._id !== id));
+				axios.delete(`http://localhost:4000/cliente/delete/${id}`).then(() => {
+					setClienteFilted(clientes.filter(video => video._id !== id));
 				});
 			}
 		});
 	};
 	useEffect(() => {
-		axios("http://localhost:4000/trailer").then(res => {
-			setVideos(res.data.body);
-			setVideosFilted(res.data.body);
+		axios("http://localhost:4000/cliente").then(res => {
+			setClientes(res.data.body);
+			setClienteFilted(res.data.body);
 		});
 	}, []);
 	return (
 		<div className='admin'>
 			<div className='admin__header'>
-				<h1>Administrar Trailers</h1>
+				<h1>Administrar Clientes</h1>
 			</div>
 			<div className='admin__actions'>
-				<Link to='/admin/create'>
-					<button>Create Trailer</button>
+				<Link to='/create'>
+					<button>Create Cliente</button>
 				</Link>
 				<input
 					type='text'
 					id='search'
 					placeholder='search'
-					onChange={e => setVideosFilted(useFilter(videos, e.target.value))}
+					onChange={e => setClienteFilted(useFilter(clientes, e.target.value))}
 				/>
 			</div>
 			<div className='admin__videos'>
 				<table>
 					<thead>
 						<tr>
-							<th>Portada</th>
-							<th>Titulo</th>
-							<th>Actores</th>
-							<th>Reseña</th>
-							<th>Año</th>
+							<th>Nombre</th>
+							<th>Apellido</th>
+							<th>Cédula</th>
+							<th>Teléfono</th>
+							<th>Dirección</th>
+							<th>Deuda</th>
+							<th>Abono</th>
+							<th>Total</th>
 							<th>Acciones</th>
 						</tr>
 					</thead>
 					<tbody>
-						{videosFilted.length > 0 ? (
-							videosFilted.map((video, i) => (
-								<Video
-									titulo={video.titulo}
-									actores={video.actores}
-									año={video.año}
-									reseña={video.reseña}
-									portada={video.portada}
-									id={video._id}
-									key={video._id ? video._id : i}
+						{clientesFilted.length > 0 ? (
+							clientesFilted.map((cliente, i) => (
+								<ClienteWrapper
+									nombre={cliente.nombre}
+									apellido={cliente.apellido}
+									cedula={cliente.cedula}
+									telefono={cliente.telefono}
+									direccion={cliente.direccion}
+									deuda={cliente.deuda}
+									abono={cliente.abono}
+									total={cliente.total}
+									id={cliente._id}
+									key={cliente._id ? cliente._id : i}
 									handleDelete={handleDelete}
-									{...video}
+									{...cliente}
 								/>
 							))
 						) : (
@@ -86,8 +92,8 @@ function index() {
 						)}
 					</tbody>
 				</table>
-				{videosFilted.length === 0 && (
-					<h2>No hay trailers que coincidan con su busqueda</h2>
+				{clientesFilted.length === 0 && (
+					<h2>No hay clientes que coincidan con su busqueda</h2>
 				)}
 			</div>
 		</div>

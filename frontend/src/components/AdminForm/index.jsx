@@ -7,59 +7,70 @@ import "./index.scss";
 function index({ type }) {
 	const navigate = useNavigate();
 	const { id } = useParams();
-	const [video, setVideo] = useState({
-		actores: [],
-		titulo: "",
-		año: "",
-		director: "",
-		reseña: "",
-		src: "",
-		portada: "",
+	const [cliente, setCliente] = useState({
+		nombre: "",
+		apellido: "",
+		cedula: "",
+		telefono: "",
+		direccion: "",
+		deuda: "",
+		abono: "",
+		total: "",
 	});
-	const typeTitle = type === "create" ? "Crear Trailer" : "Editar trailer";
+	const typeTitle = type === "create" ? "Crear Cliente" : "Editar Cliente";
 	useEffect(() => {
 		if (type === "create") return;
-		axios.get(`http://localhost:4000/trailer/${id}`).then(res => {
-			const { actores, titulo, año, director, reseña, src, portada } =
-				res.data.body;
-			setVideo({
-				actores,
-				titulo,
-				año,
-				director,
-				reseña,
-				src,
-				portada,
+		axios.get(`http://localhost:4000/cliente/${id}`).then(res => {
+			const {
+				nombre,
+				apellido,
+				cedula,
+				telefono,
+				direccion,
+				deuda,
+				abono,
+				total,
+			} = res.data.body;
+			setCliente({
+				nombre,
+				apellido,
+				cedula,
+				telefono,
+				direccion,
+				deuda,
+				abono,
+				total,
 			});
 		});
 	}, []);
 
 	const handleSubmit = e => {
 		e.preventDefault();
+		console.log(cliente);
 		if (type === "create") {
-			axios.post(`http://localhost:4000/trailer`, video).then(res => {
-				navigate("/admin");
+			axios.post(`http://localhost:4000/cliente`, cliente).then(res => {
+				navigate("/");
 			});
 		} else {
 			axios
-				.patch(`http://localhost:4000/trailer/${id}`, { trailer: video })
+				.patch(`http://localhost:4000/cliente/${id}`, { cliente: cliente })
 				.then(res => {
-					navigate("/admin");
+					navigate("/");
 				});
 		}
 	};
 
 	const handleChange = e => {
-		setVideo({
-			...video,
+		setCliente({
+			...cliente,
 			[e.target.name]: e.target.value,
 		});
 	};
 
 	const handleChangeActores = e => {
 		const value = e.target.value.split(",");
-		setVideo({
-			...video,
+		setCliente({
+			...cliente,
 			actores: value,
 		});
 	};
@@ -67,8 +78,8 @@ function index({ type }) {
 	const handleChangeAño = e => {
 		const reg = new RegExp("^[0-9]+$");
 		if (reg.exec(e.target.value) || e.target.value == " ") {
-			setVideo({
-				...video,
+			setCliente({
+				...cliente,
 				año: e.target.value,
 			});
 		}
@@ -79,113 +90,84 @@ function index({ type }) {
 			<h1>{typeTitle}</h1>
 			<form onSubmit={handleSubmit}>
 				<div className='row1'>
-					<div className='titulo'>
-						<label htmlFor='titulo'>
-							Titulo
+					<div className='nombre'>
+						<label htmlFor='nombre'>
+							Nombre
 							<input
 								type='text'
-								name='titulo'
-								placeholder=' Ej: La cucaracha'
-								id='titulo'
+								name='nombre'
+								placeholder=' Ej: Juan'
+								id='nombre'
 								onChange={handleChange}
-								value={video.titulo}
+								value={cliente.nombre}
 								required
 							/>
 						</label>
 					</div>
 
-					<div className='actores'>
-						<label htmlFor='actores'>
-							Actores
+					<div className='apellido'>
+						<label htmlFor='apellido'>
+							Apellido
 							<input
 								type='text'
-								name='actores'
-								id='actores'
-								placeholder='Ej: Juan, Pedro, Juan'
-								onChange={handleChangeActores}
-								value={video.actores}
+								name='apellido'
+								id='apellido'
+								placeholder='Ej: Pabro Duarte'
+								onChange={handleChange}
+								value={cliente.apellido}
 								required
 							/>
 						</label>
 					</div>
-					<div className='año'>
-						<label htmlFor='año'>
-							Año
+					<div className='cedula'>
+						<label htmlFor='cedula'>
+							Cedula
 							<input
 								type='text'
-								name='año'
-								id='año'
-								placeholder='Ej: 2019'
-								onChange={handleChangeAño}
-								value={video.año}
+								name='cedula'
+								id='cedula'
+								placeholder='Ej: 222-222222-2'
+								onChange={handleChange}
+								value={cliente.cedula}
 								required
 							/>
 						</label>
 					</div>
 				</div>
 				<div className='row2'>
-					<div className='director'>
-						<label htmlFor='director'>
-							Director
+					<div className='telefono'>
+						<label htmlFor='telefono'>
+							Telefono
 							<input
 								type='text'
-								name='director'
-								id='director'
-								placeholder='Ej: Juan'
+								name='telefono'
+								id='telefono'
+								placeholder='Ej: 222-222-2222'
 								onChange={handleChange}
-								value={video.director}
+								value={cliente.telefono}
 								required
 							/>
 						</label>
 					</div>
 
-					<div className='src'>
-						<label htmlFor='src'>
-							Url del trailer
+					<div className='direccion'>
+						<label htmlFor='direccion'>
+							Dirección
 							<input
 								type='text'
-								name='src'
-								id='src'
-								placeholder='Ej: https://www.youtube.com/embed/dQw4w9WgXcQ'
+								name='direccion'
+								id='direccion'
+								placeholder='Ej: av. Principal'
 								onChange={handleChange}
-								value={video.src}
-								required
-							/>
-						</label>
-					</div>
-					<div className='portada'>
-						<label htmlFor='portada'>
-							Url de la portada
-							<input
-								type='text'
-								name='portada'
-								id='portada'
-								placeholder='Ej: https://i.imgur.com/pLbxazs.jpg'
-								onChange={handleChange}
-								value={video.portada}
+								value={cliente.direccion}
 								required
 							/>
 						</label>
 					</div>
 				</div>
-				<div className='row3'>
-					<div className='reseña'>
-						<label htmlFor='reseña'>
-							Reseña
-							<textarea
-								type='text'
-								name='reseña'
-								id='reseña'
-								placeholder='Ej: La cucaracha es una pelicula de terror'
-								onChange={handleChange}
-								value={video.reseña}
-								required
-							/>
-						</label>
-					</div>
-				</div>
+
 				<div className='buttonContainer'>
-					<button type='submit'>Submit</button>
+					<button type='submit'>Enviar</button>
 				</div>
 			</form>
 		</div>
