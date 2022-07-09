@@ -3,8 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "./index.scss";
 import { useContext } from "../../Context";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 function index({ type }) {
+  const MySwal = withReactContent(Swal);
 	const [form, setForm] = useState({
 		name: "",
 		password: "",
@@ -18,14 +21,25 @@ function index({ type }) {
 	const handleSubmit = e => {
 		e.preventDefault();
 		if (!form.name || !form.password) {
-			alert("Debe de llenar todos los campos");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Por favor, llene todos los campos",
+      });
 			return;
 		}
 		axios.post("http://localhost:4000/user/" + typeURL, form).then(res => {
 			localStorage.setItem("token", res.data.body.token);
 			dispatch({ type: "update", payload: res.data.body.token });
 			navigate("/");
-		});
+		}).catch(err => {
+      console.log(err)
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "El usuario ya existe, intente con otro nombre de usuario",
+      });
+    });
 	};
 
 	const handleChange = e => {

@@ -1,8 +1,6 @@
-export default function useFilter(videos, search) {
-		const result = videos.filter(video => {
-			return `${video.titulo} ${video.actores.map(actor => `${actor} `)} ${
-				video.año
-			}`
+export default function useFilter(clientes, search) {
+		const result = clientes.filter(cliente => {
+			return `${cliente.nombre} ${cliente.apellido} ${cliente.telefono} ${cliente.direccion} ${cliente.deuda} ${cliente.abono} ${cliente.total}`
 				.toLowerCase()
 				.includes(search.toLowerCase());
 		});

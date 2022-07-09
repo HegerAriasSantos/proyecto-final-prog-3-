@@ -2,9 +2,13 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
 
 import "./index.scss";
 function index({ type }) {
+  const MySwal = withReactContent(Swal);
 	const navigate = useNavigate();
 	const { id } = useParams();
 	const [form, setForm] = useState({
@@ -51,7 +55,11 @@ function index({ type }) {
 	const handleSubmit = e => {
 		e.preventDefault();
 		if (form.abono > cliente.deuda) {
-			alert("El abono no puede ser mayor que la deuda");
+      MySwal.fire({
+				icon: "error",
+				title: "Oops...",
+				text: "No puede abonar mas de la deuda!",
+			});
 			return;
 		}
 		let data = {
@@ -60,11 +68,10 @@ function index({ type }) {
 			abono: Number(cliente.abono) + Number(form.abono),
 		};
 		data.total = data.deuda - data.abono;
-		console.log(data);
 		axios
 			.patch(`http://localhost:4000/cliente/${id}`, { cliente: data })
 			.then(res => {
-				navigate("/");
+        navigate("/");
 			});
 	};
 
@@ -74,6 +81,26 @@ function index({ type }) {
 			[e.target.name]: e.target.value,
 		});
 	};
+  const payOffDebt = () => {
+    let data = {
+			...cliente,
+			deuda: 0,
+			abono: 0,
+			total: 0,
+		};
+    axios
+			.patch(`http://localhost:4000/cliente/${id}`, { cliente: data })
+			.then(res => {
+        MySwal.fire({
+          icon: "Success",
+          title: "Deuda saldada",
+          text: "La deuda se ha saldado correctamente, los siguientes campos se reiniciaran para limpiar la base de datos: deuda, abono y total",
+        }).then(() => {
+          navigate(`/`);
+        });
+				
+			});
+  }
 
 	return (
 		<div className='AdminForm'>
@@ -115,6 +142,7 @@ function index({ type }) {
 					</div>
 				</div>
 				<div className='buttonContainer'>
+					<button onClick={payOffDebt} type='button'>Saldar deuda</button>
 					<button type='submit'>Enviar</button>
 				</div>
 			</form>

@@ -34,8 +34,17 @@ function index() {
 	};
 	useEffect(() => {
 		axios("http://localhost:4000/cliente").then(res => {
-			setClientes(res.data.body);
-			setClienteFilted(res.data.body);
+       const orderedDatas = res.data.body.sort(function (a, b) {
+        if (a.deuda < b.deuda) {
+          return 1;
+        }
+        if (a.deuda > b.deuda) {
+          return -1;
+        }
+        return 0;
+      });
+      setClientes(orderedDatas);
+			setClienteFilted(orderedDatas);
 		});
 	}, []);
 	return (
@@ -50,7 +59,7 @@ function index() {
 				<input
 					type='text'
 					id='search'
-					placeholder='search'
+					placeholder='Buscar...'
 					onChange={e => setClienteFilted(useFilter(clientes, e.target.value))}
 				/>
 			</div>

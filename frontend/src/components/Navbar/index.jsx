@@ -37,11 +37,11 @@ function index() {
 					<form onSubmit={handleSubmit}>
 						<input
 							type='search'
-							placeholder='Search'
+							placeholder='Buscar...'
 							value={search}
 							onChange={handleChange}
 						/>
-            <button>Search</button>
+            <button>Buscar</button>
 					</form>
 				</div>
 			</div>
