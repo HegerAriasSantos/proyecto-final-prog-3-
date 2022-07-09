@@ -20,7 +20,7 @@ function index({ type }) {
 	const typeTitle = type === "create" ? "Crear Cliente" : "Editar Cliente";
 	useEffect(() => {
 		if (type === "create") return;
-		axios.get(`http://localhost:4000/cliente/${id}`).then(res => {
+		axios.get(`https://scrum-proyect.herokuapp.com/cliente/${id}`).then(res => {
 			const {
 				nombre,
 				apellido,
@@ -48,12 +48,12 @@ function index({ type }) {
 		e.preventDefault();
 		console.log(cliente);
 		if (type === "create") {
-			axios.post(`http://localhost:4000/cliente`, cliente).then(res => {
+			axios.post(`https://scrum-proyect.herokuapp.com/cliente`, cliente).then(res => {
 				navigate("/");
 			});
 		} else {
 			axios
-				.patch(`http://localhost:4000/cliente/${id}`, { cliente: cliente })
+				.patch(`https://scrum-proyect.herokuapp.com/cliente/${id}`, { cliente: cliente })
 				.then(res => {
 					navigate("/");
 				});

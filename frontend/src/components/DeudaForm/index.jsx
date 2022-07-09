@@ -28,7 +28,7 @@ function index({ type }) {
 	});
 
 	useEffect(() => {
-		axios.get(`http://localhost:4000/cliente/${id}`).then(res => {
+		axios.get(`https://scrum-proyect.herokuapp.com/cliente/${id}`).then(res => {
 			const {
 				nombre,
 				apellido,
@@ -69,7 +69,7 @@ function index({ type }) {
 		};
 		data.total = data.deuda - data.abono;
 		axios
-			.patch(`http://localhost:4000/cliente/${id}`, { cliente: data })
+			.patch(`https://scrum-proyect.herokuapp.com/cliente/${id}`, { cliente: data })
 			.then(res => {
         navigate("/");
 			});
@@ -89,7 +89,7 @@ function index({ type }) {
 			total: 0,
 		};
     axios
-			.patch(`http://localhost:4000/cliente/${id}`, { cliente: data })
+			.patch(`https://scrum-proyect.herokuapp.com/cliente/${id}`, { cliente: data })
 			.then(res => {
         MySwal.fire({
           icon: "Success",

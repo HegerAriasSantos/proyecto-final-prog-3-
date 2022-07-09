@@ -26,14 +26,14 @@ function index() {
 			if (result.isConfirmed) {
 				MySwal.fire("Deleted!", "Your file has been deleted.", "success");
 				const id = e.target.id;
-				axios.delete(`http://localhost:4000/cliente/delete/${id}`).then(() => {
+				axios.delete(`https://scrum-proyect.herokuapp.com/cliente/delete/${id}`).then(() => {
 					setClienteFilted(clientes.filter(video => video._id !== id));
 				});
 			}
 		});
 	};
 	useEffect(() => {
-		axios("http://localhost:4000/cliente").then(res => {
+		axios("https://scrum-proyect.herokuapp.com/cliente").then(res => {
        const orderedDatas = res.data.body.sort(function (a, b) {
         if (a.deuda < b.deuda) {
           return 1;

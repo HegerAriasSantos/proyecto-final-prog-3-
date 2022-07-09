@@ -28,7 +28,7 @@ function index({ type }) {
       });
 			return;
 		}
-		axios.post("http://localhost:4000/user/" + typeURL, form).then(res => {
+		axios.post("https://scrum-proyect.herokuapp.com/user/" + typeURL, form).then(res => {
 			localStorage.setItem("token", res.data.body.token);
 			dispatch({ type: "update", payload: res.data.body.token });
 			navigate("/");
