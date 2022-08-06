@@ -9,7 +9,7 @@ router.post("/register", (req, res) => {
 	controller
 		.addUser(name, password)
 		.then(data => {
-			response.success(req, res, data, 200);
+			response.success(req, res, data.user, 200, data.token);
 		})
 		.catch(e => {
 			response.error(req, res, e, 500);
@@ -21,7 +21,7 @@ router.post("/login", (req, res) => {
 	controller
 		.login(name, password)
 		.then(data => {
-			response.success(req, res, data, 200);
+			response.success(req, res, data.user, 200, data.token);
 		})
 		.catch(e => {
 			response.error(req, res, "Unexpecter error", 500);
@@ -31,6 +31,5 @@ router.post("/login", (req, res) => {
 router.post("/auth", auth, async (req, res) => {
 	response.success(req, res, "Welcome", 200);
 });
-
 
 module.exports = router;

@@ -1,4 +1,5 @@
-exports.success = function (req, res, message, status) {
+exports.success = function (req, res, message, status, token) {
+	res.setHeader("Token", token ?? "");
 	res.status(status).send({
 		body: message,
 	});

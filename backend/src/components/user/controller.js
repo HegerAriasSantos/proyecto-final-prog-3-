@@ -21,8 +21,7 @@ function addUser(name, password) {
 		});
 
 		const token = jwt.sign({ userId: user._id, name }, "process.env.TOKEN_KEY");
-		user.token = token;
-		return resolve(user);
+		return resolve({ user, token });
 	});
 }
 function login(name, password) {
@@ -36,9 +35,11 @@ function login(name, password) {
 			const token = jwt.sign(
 				{ user_id: user._id, name },
 				"process.env.TOKEN_KEY",
+				{
+					expiresIn: "2h",
+				},
 			);
-			user.token = token;
-			resolve(user);
+			return resolve({ user, token });
 		}
 		reject("Usuario o contraseña incorrectos");
 	});
