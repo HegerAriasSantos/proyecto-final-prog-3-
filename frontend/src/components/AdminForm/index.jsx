@@ -48,12 +48,16 @@ function index({ type }) {
 		e.preventDefault();
 		console.log(cliente);
 		if (type === "create") {
-			axios.post(`https://scrum-proyect.herokuapp.com/cliente`, cliente).then(res => {
-				navigate("/");
-			});
+			axios
+				.post(`https://scrum-proyect.herokuapp.com/cliente`, cliente)
+				.then(res => {
+					navigate("/");
+				});
 		} else {
 			axios
-				.patch(`https://scrum-proyect.herokuapp.com/cliente/${id}`, { cliente: cliente })
+				.patch(`https://scrum-proyect.herokuapp.com/cliente/${id}`, {
+					cliente: cliente,
+				})
 				.then(res => {
 					navigate("/");
 				});
